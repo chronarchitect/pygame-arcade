@@ -28,7 +28,7 @@ class Player(pygame.sprite.Sprite):
 
         sprite_sheet = SpriteSheet("walk_sheet2.png")
         #Load all the left facing images into a list
-        self.walking_frames_l = sprite_sheet.load_strip([0, 0, 50, 62], 4, colorkey=WHITE)
+        self.walking_frames_l = sprite_sheet.load_strip([0, 0, 50, 62], 4, colorkey=constants.WHITE)
 
         #Load all the left facing images then flip them right
         for image in self.walking_frames_l:
@@ -67,3 +67,17 @@ class Player(pygame.sprite.Sprite):
         """ Called when the user lets off the keyboard """
         self.change_x = 0
 
+def main():
+    # Initialize pygame
+    pygame.init()
+    screen = pygame.display.set_mode([constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT])
+
+    # This is the player
+    player = Player()
+    player.rect.x = 0
+    player.rect.y = constants.SCREEN_WIDTH - 50
+
+
+
+if __name__ == '__main__':
+    main()
