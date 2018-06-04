@@ -28,7 +28,7 @@ class Player(pygame.sprite.Sprite):
 
         sprite_sheet = SpriteSheet("walk_sheet2.png")
         #Load all the left facing images into a list
-        self.walking_frames_l = sprite_sheet.load_strip([0, 0, 50, 62], 4, colorkey=constants.WHITE)
+        self.walking_frames_l = sprite_sheet.load_strip([0, 0, 50, 62], 4, constants.WHITE)
 
         #Load all the left facing images then flip them right
         for image in self.walking_frames_l:
@@ -75,9 +75,59 @@ def main():
     # This is the player
     player = Player()
     player.rect.x = 0
-    player.rect.y = constants.SCREEN_WIDTH - 50
+    player.rect.y = (constants.SCREEN_HEIGHT - 100)
+    
+    # This is a list of all sprites
+    all_sprites_list = pygame.sprite.Group()
 
+    # Adding the player to all sprites list
+    all_sprites_list.add(player)
 
+    # Loop until user wants to quit
+    done = False
+
+    # Used to manage FPS
+    clock = pygame.time.Clock()
+
+    #---- Main Program Loop
+    while not done:
+        #---- Catch events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                done = True
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    player.go_left()
+                elif event.key == pygame.K_RIGHT:
+                    player.go_right()
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                    player.stop()
+        
+        # Game logic
+        # Calling the update method
+        player.update()
+
+        font = pygame.font.SysFont('Calibri', 25, True, False)
+        position = "[ "+str(player.rect.x)+", "+str(player.rect.y)+"]"
+        text = font.render(position, True, constants.WHITE)
+
+        # Clearing the screen
+        screen.fill(constants.BLACK)
+        
+        # Drawing code
+        screen.blit(text, [30, 20])
+        # We need a pygame.sprite,Group() object to draw sprites
+        all_sprites_list.draw(screen)
+
+        # Updating the display with what has been drawn
+        pygame.display.flip()
+
+        #Framerate limit
+        clock.tick(60)
+
+    # Close the window and quit
+    pygame.quit()
 
 if __name__ == '__main__':
     main()
