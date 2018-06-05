@@ -113,7 +113,7 @@ def main():
         text = font.render(position, True, constants.WHITE)
 
         # Clearing the screen
-        screen.fill(constants.BLACK)
+        screen.fill(constants.WHITE)
         
         # Drawing code
         screen.blit(text, [30, 20])
@@ -124,7 +124,7 @@ def main():
         pygame.display.flip()
 
         #Framerate limit
-        clock.tick(60)
+        clock.tick(30)
 
     # Close the window and quit
     pygame.quit()
