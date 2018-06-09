@@ -10,5 +10,5 @@ GREEN = (  0, 255,   0)
 BLUE  = (  0,   0, 255)
 
 #Screen Dimensions
-SCREEN_WIDTH  = 840
-SCREEN_HEIGHT = 840
+SCREEN_WIDTH  = 1000
+SCREEN_HEIGHT = 1000

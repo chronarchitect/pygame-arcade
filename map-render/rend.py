@@ -6,4 +6,3 @@ for i in str:
         if j == 'W':
             print('▧ ', end="")
     print()
-

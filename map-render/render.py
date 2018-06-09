@@ -1,6 +1,7 @@
 import pygame
 import constants
 import os
+from spritesheet import SpriteSheet
 
 # Get level map from file
 file_in = open('MAP')
@@ -8,6 +9,7 @@ maps = file_in.read().split()
 
 # Initialize pygame
 pygame.init()
+
 
 # Making a sprite block class
 class Block(pygame.sprite.Sprite):
@@ -21,9 +23,11 @@ class Block(pygame.sprite.Sprite):
 
         super().__init__()
 
+        sprite_sheet = SpriteSheet('lol.png')
         #Create an image of the block
-        self.image = pygame.Surface([width, height], pygame.SRCALPHA, 32)
-        pygame.draw.rect(self.image, color, [0, 0, width, height])
+        picture = sprite_sheet.image_at([0, 0, 20, 20])
+        picture = pygame.transform.scale(picture, (width, height))
+        self.image = picture
 
         # Fetch the rectangle object that has the dimensions of the image
         # Update the position by setting the values of
@@ -32,6 +36,10 @@ class Block(pygame.sprite.Sprite):
 
 all_sprites_list = pygame.sprite.Group()
 
+# Set the width and height of the screen [width, height]
+size = (constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
+screen = pygame.display.set_mode(size)
+
 x_var = 0
 y_var = 0
 
@@ -39,7 +47,7 @@ for line in maps:
     x_var = 0
     for char in line:
         if char == 'W':
-            wall = Block(constants.BLACK, 40, 40)
+            wall = Block(constants.RED, 40, 40)
 
             wall.rect.x = x_var
             wall.rect.y = y_var
@@ -48,10 +56,6 @@ for line in maps:
         x_var += 40
     y_var += 40
 
-
-# Set the width and height of the screen [width, height]
-size = (constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
-screen = pygame.display.set_mode(size)
 
 pygame.display.set_caption("Level Map")
 
