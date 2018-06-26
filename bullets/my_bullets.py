@@ -16,10 +16,36 @@ class Gun(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
 
+        self.change_x = 0
+        self.change_y = 0
+
+    def move(self, direction):
+        if direction == 'left':
+            self.change_x = -3
+        elif direction == 'right':
+            self.change_x = 3
+        elif direction == 'up':
+            self.change_y = -3
+        elif direction == 'down':
+            self.change_y = 3
+    
+    def stop(self, direction):
+        if direction == 'left' or direction == 'right':
+            self.change_x = 0
+        elif direction == 'up' or direction == 'down':
+            self.change_y = 0
+
     def update(self):
-        pos = pygame.mouse.get_pos()
-        self.rect.x = pos[0]
-        self.rect.y = pos[1]
+        self.rect.x = self.rect.x + self.change_x
+        self.rect.y = self.rect.y + self.change_y
+        if self.rect.bottom > constants.SCREEN_HEIGHT:
+            self.rect.bottom = constants.SCREEN_HEIGHT
+        elif self.rect.top < 0:
+            self.rect.top = 0
+        elif self.rect.right > constants.SCREEN_WIDTH:
+            self.rect.right = constants.SCREEN_WIDTH
+        elif self.rect.left < 0:
+            self.rect.left = 0
 
 class Bullet(pygame.sprite.Sprite):
     """
@@ -67,13 +93,27 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            bullet = Bullet(constants.BLACK, 5, 5)
-            bullet.rect.x = gun.rect.x
-            bullet.rect.y = gun.rect.y
-            all_sprites_list.add(bullet)
-            bullet_list.add(bullet)
- 
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                bullet = Bullet(constants.BLACK, 5, 5)
+                bullet.rect.x = gun.rect.x
+                bullet.rect.y = gun.rect.y
+                all_sprites_list.add(bullet)
+                bullet_list.add(bullet)
+            elif event.key == pygame.K_w:
+                gun.move('up')
+            elif event.key == pygame.K_s:
+                gun.move('down')
+            elif event.key == pygame.K_d:
+                gun.move('right')
+            elif event.key == pygame.K_a:
+                gun.move('left')
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_w or event.key == pygame.K_s:
+                gun.stop('up')
+            elif event.key == pygame.K_a or event.key == pygame.K_d:
+                gun.stop('left')
+
     # --- Game logic should go here
     all_sprites_list.update()
 
