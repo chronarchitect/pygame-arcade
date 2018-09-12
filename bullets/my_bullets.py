@@ -100,18 +100,18 @@ while not done:
                 bullet.rect.y = gun.rect.y
                 all_sprites_list.add(bullet)
                 bullet_list.add(bullet)
-            elif event.key == pygame.K_w:
+            if event.key == pygame.K_w:
                 gun.move('up')
-            elif event.key == pygame.K_s:
+            if event.key == pygame.K_s:
                 gun.move('down')
-            elif event.key == pygame.K_d:
+            if event.key == pygame.K_d:
                 gun.move('right')
-            elif event.key == pygame.K_a:
+            if event.key == pygame.K_a:
                 gun.move('left')
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_w or event.key == pygame.K_s:
                 gun.stop('up')
-            elif event.key == pygame.K_a or event.key == pygame.K_d:
+            if event.key == pygame.K_a or event.key == pygame.K_d:
                 gun.stop('left')
 
     # --- Game logic should go here
